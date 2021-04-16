@@ -5,7 +5,7 @@ class Category
     list(res)
     {
         connect.query(`SELECT * FROM category WHERE status = 1`, (error, result) => {
-            return error? res.json(error) : res.json(result)
+            return error? res.json(error) : res.json({ categories: result })
         })
     }
     

@@ -6,6 +6,6 @@ module.exports = app => {
     })
     app.post('/category', function(req, res){
         let input = req.body
-        Category.insert(input, res)
+        res.json(JSON.stringify(input))
     })
 }
