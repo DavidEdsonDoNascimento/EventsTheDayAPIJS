@@ -4,6 +4,7 @@ class Tables
     {
         this.connection = connection
         this.createCategory()
+        this.createEvent()
     }
 
     messageCreateTableSuccess(table_name)
@@ -25,9 +26,38 @@ class Tables
         ENGINE = InnoDB
         COMMENT = 'Tabela responsável por armazenar as categorias dos eventos'
         `, erro => {
-            if(erro) console.log(erro)
-            else this.messageCreateTableSuccess('category')
+            
+            if(erro) {
+                console.log(erro)
+                return
+            }
+
+            this.messageCreateTableSuccess('category')
         })
+    }
+
+    createEvent()
+    {
+        this.connection.query(`
+            CREATE TABLE IF NOT EXISTS event (
+                id INT NOT NULL AUTO_INCREMENT,
+                summary varchar(255) NOT NULL,
+                obs text(1000),
+                category_id INT NOT NULL,
+                status TINYINT DEFAULT 1,
+                PRIMARY KEY (id),
+                FOREIGN KEY (category_id) REFERENCES category(id)
+            )
+        `, error => {
+            
+            if(error){
+                console.log(error)
+                return
+            }
+
+            this.messageCreateTableSuccess('event')
+        })
+
     }
 }
 
