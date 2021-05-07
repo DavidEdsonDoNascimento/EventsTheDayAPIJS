@@ -4,7 +4,7 @@ class Tables
     {
         this.connection = connection
         this.createCategory()
-        this.createEvent()
+        this.createOccurrence()
     }
 
     messageCreateTableSuccess(table_name)
@@ -36,10 +36,10 @@ class Tables
         })
     }
 
-    createEvent()
+    createOccurrence()
     {
         this.connection.query(`
-            CREATE TABLE IF NOT EXISTS event (
+            CREATE TABLE IF NOT EXISTS occurrence (
                 id INT NOT NULL AUTO_INCREMENT,
                 summary varchar(255) NOT NULL,
                 obs text(1000),
@@ -55,7 +55,7 @@ class Tables
                 return
             }
 
-            this.messageCreateTableSuccess('event')
+            this.messageCreateTableSuccess('occurrence')
         })
 
     }
