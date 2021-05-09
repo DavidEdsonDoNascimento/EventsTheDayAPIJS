@@ -44,6 +44,7 @@ class Tables
                 summary varchar(255) NOT NULL,
                 obs text(1000),
                 category_id INT NOT NULL,
+                create_in datetime not null,
                 status TINYINT DEFAULT 1,
                 PRIMARY KEY (id),
                 FOREIGN KEY (category_id) REFERENCES category(id)
