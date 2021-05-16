@@ -8,5 +8,10 @@ module.exports = app => {
     app.post('/occurrence', (req, res) => {
         Occurrence.insert(req.body, res)
     })
+    
+    app.get('/occurrence/:id', (req, res) => {
+    	const { id } = req.params
+	    Occurrence.findById(id, res)
+    })
 
 }

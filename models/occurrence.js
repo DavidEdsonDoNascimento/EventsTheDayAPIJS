@@ -18,6 +18,12 @@ class Occurrence
             return error? res.status(400).json(error) : res.status(201).json({ success: true, message: `Ocorrencia ${occurrence.summary} criada com sucesso.` })
         })
     }
+    
+    findById(id, res){
+    	connect.query('SELECT * FROM occurrence WHERE id = ?', id, (error, result) => {
+            return error? res.status(400).json(error) : res.status(200).json({ success: true, result: result })
+        })
+    }
 }
 
 module.exports = new Occurrence
