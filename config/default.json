@@ -8,6 +8,6 @@
         "port": 3306,
         "database": "events_of_the_day_db",
         "user": "root",
-        "password": "password"
+        "password": "root"
     }
 }

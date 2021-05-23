@@ -3,12 +3,11 @@ const moment = require('moment')
 
 class Occurrence 
 {
-    async list() 
+    list(res) 
     {
-        let result = connect.query('SELECT e.*, c.name as category_name FROM occurrence e INNER JOIN category c on c.id = e.category_id WHERE e.status = 1 ORDER BY create_in', async (error, result) => {
-            return error ? { status: 400, error: error.message } : { status: 200, occurrence: result }
+        connect.query('SELECT e.*, c.name as category_name FROM occurrence e INNER JOIN category c on c.id = e.category_id WHERE e.status = 1 ORDER BY create_in', (error, result) => {
+            return error ? res.status(500).json({ success: false, error: error.message}) : res.status(200).json({ success: true, occurrence: result})
         })
-        return result
     }
 
     insert(occurrence, res)

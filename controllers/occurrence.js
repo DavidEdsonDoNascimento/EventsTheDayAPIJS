@@ -2,15 +2,7 @@ const Occurrence = require('./../models/occurrence')
 
 module.exports = app => {
     app.get('/occurrence', async (req, res) => {
-        
-        try{
-
-            const result = await Occurrence.list()
-            return res.status(result.status).json(result)
-        } 
-        catch(error){
-            return res.status(500).json({ error: error })
-        }
+        Occurrence.list(res)
     })
 
     app.post('/occurrence', (req, res) => {
