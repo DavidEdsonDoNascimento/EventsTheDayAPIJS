@@ -33,7 +33,7 @@ class CategoriesController
         
         try{
 
-            const category =  await db.Categories.create(req.body)
+            const category =  await db.Categories.create({ ...req.body, status: true })
             return res.status(201).json(category)
         }
         catch(e){
