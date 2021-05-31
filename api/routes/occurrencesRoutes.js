@@ -6,6 +6,7 @@ router
 .get('/occurrences', OccurrencesController.list)
 .get('/occurrences/:id', OccurrencesController.findById)
 .post('/occurrences', OccurrencesController.insert)
-.patch('/occurrences', OccurrencesController.update)
+.patch('/occurrences/:id', OccurrencesController.update)
+
 
 module.exports = router

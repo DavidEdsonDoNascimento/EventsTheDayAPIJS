@@ -20,7 +20,11 @@ class OccurrencesController
         
         try{
             
-            const occurrence = await db.Occurrences.findOne({ where: { id: id } })
+            const occurrence = await db.Occurrences.findOne({ 
+                include: db.Times,
+                where: { id: id } 
+            })
+
             return res.status(200).json(occurrence)
         }
         catch (err){
@@ -43,10 +47,30 @@ class OccurrencesController
     static async update(req, res)
     {
         const { id } = req.params
+        const { summary, obs, Times } = req.body
 
         try{
             
-            await db.Occurrences.update(req.body, { where: { id: id }})
+            await db.Occurrences.update({ summary: summary, obs: obs}, { where: { id: id }})
+
+            if(Times.length > 0){
+
+                Times.forEach(async time => {
+
+                    let timeObj = {
+                        start: time.start, 
+                        end: time.end, 
+                        status: time.status,
+                        occurrence_id: id
+                    }
+
+                    if(typeof time.id == 'undefined'){
+                        await db.Times.create(timeObj)    
+                        return;
+                    }
+
+                    await db.Times.update(timeObj, { where: { id: time.id, occurrence_id: id } }) })
+            }
             
             const occurrence = await db.Occurrences.findOne({ where: { id: id } })
             
