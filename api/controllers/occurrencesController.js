@@ -31,11 +31,39 @@ class OccurrencesController
             return res.status(500).json(err.message)
         }
     }
+
+    static async findTimesOfOccurrence(req, res)
+    {
+        const { id } = req.params
+
+        try {
+
+            const times = await db.Times.findAll({ where: { occurrence_id: id }, order: [ ['start'] ] })
+            return res.status(200).json(times)
+        }
+        catch (err){
+            return res.status(500).json(err.message)
+        }
+    }
+
+    static async deleteTimeOfOccurence(req, res)
+    {
+        const { occurrenceId, timeId } = req.params
+
+        try{
+
+            await db.Times.destroy({ where: { id: timeId, occurrence_id: occurrenceId }})
+            return res.status(200).json({ message: `Tempo excluido.` })
+        }
+        catch (err){
+            return res.status(500).json(err)
+        }
+    }
     
     static async insert(req, res)
     {
         try{
-
+            
             const occurrence = await db.Occurrences.create(req.body)
             return res.status(200).json(occurrence)
         }
