@@ -1,15 +1,19 @@
-const bodyParser = require('body-parser')
-const categoriesRoutes = require('./categoriesRoutes')
-const occurrencesRoutes = require('./occurrencesRoutes')
-const usersRoutes = require('./usersRoutes')
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import usersRoutes from './usersRoutes';
+import categoriesRoutes from './categoriesRoutes';
+import occurrencesRoutes from './occurrencesRoutes';
 
-const cors = require('cors')
-
-module.exports = app => {
-    app.use(cors({ origin: true, credentials: true  }))
-    app.use(bodyParser.json())
-    app.use(bodyParser.urlencoded({ extended: true }))
-    app.use(usersRoutes, categoriesRoutes, occurrencesRoutes)
+export const routes = app => {
+    
+    app.use(
+        cors({ origin: true, credentials: true  }),
+        bodyParser.json(),
+        bodyParser.urlencoded({ extended: true }),
+        usersRoutes, 
+        categoriesRoutes, 
+        occurrencesRoutes
+    )
 
     app.get('/checkapi', (req, res) => {
         return res.status(200).json({ success: true })

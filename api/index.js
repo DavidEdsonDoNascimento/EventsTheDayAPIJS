@@ -1,7 +1,8 @@
-const express = require('express')
-const routes = require('./routes')
 
-const app = express()
-routes(app)
+import express from 'express';
+import { routes } from './routes';
 
-app.listen(3100)
+const app = express();
+routes(app);
+
+app.listen(3100);

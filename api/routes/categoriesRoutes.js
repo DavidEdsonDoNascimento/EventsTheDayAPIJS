@@ -1,14 +1,14 @@
-const { Router } = require('express')
+import { Router } from 'express';
 
-const CategoriesController = require('./../controllers/categoriesController')
+import CategoriesController from './../controllers/categoriesController';
 
-const router = Router()
+const router = Router();
 
 router
 .get('/categories', CategoriesController.list)
 .get('/categories/:id', CategoriesController.findById)
 .post('/categories', CategoriesController.insert)
 .patch('/categories/:id', CategoriesController.update)
-.delete('/categories/:id', CategoriesController.delete)
+.delete('/categories/:id', CategoriesController.delete);
 
-module.exports = router
+export default router;
