@@ -45,13 +45,17 @@ export default class UsersController
 
             const encryptPassword = crypto.createHash('md5').update(password).digest('hex');
 
-            const user = await db.Users.findOne({ email: email, password: encryptPassword });
+            const user = await db.Users.findOne({ where: { email: email, password: encryptPassword }});
+
+            if(!user){
+                throw new Error('Nenhum usuário encontrado.');
+            }
 
             const token = jwt.sign({ userId: user.id });
 
             return res.status(200).json({ user: user, token: token });
         } catch (error) {
-            return res.status(500).json(error.message);
+            return res.status(400).json(error.message);
         }
     }
 }
