@@ -1,28 +1,57 @@
 import db from './../models';
+import * as jwt from './../config/jwt';
+import crypto from 'crypto';
 
 export default class UsersController
 {
-    static async list(req, res)
+    /**
+     * create user account
+     * @param {*} req Request
+     * @param {*} res Response
+     * @returns Json
+     */
+    static async sign(req, res) 
     {
-        try{
+        try {
             
-            const users = await db.Users.findAll();
-            return res.status(200).json(users);
-        }
-        catch(err){
-            return res.status(500).json(err.message);
+            const { email, password } = req.body;
+            
+            const encryptPassword = crypto.createHash('md5').update(password).digest('hex');
+            
+            const user = await db.Users.create({ email: email, password: encryptPassword });
+            
+            const token = jwt.sign({ userId: user.id });
+            
+            return res.status(200).json({ user: user, token: token });
+
+        } catch (error) {
+            return res.status(500).json(error.message);
         }
     }
-    
-    static async insert(req, res)
+
+     /**
+     * login to user account
+     * @param {*} req Request
+     * @param {*} res Response
+     * @returns Json
+     */
+    static async login(req, res)
     {
-        try{
+        try {
             
-            const user = await db.Users.create(req.body);
-            return res.status(201).json(user);
-        }
-        catch(err){
-            return res.status(500).json(err.message);
+            const [ hashType, hash ] = req.headers.authorization.toString().split(' ');
+            
+            const [ email, password ] = Buffer.from(hash, 'base64').toString().split(':');
+
+            const encryptPassword = crypto.createHash('md5').update(password).digest('hex');
+
+            const user = await db.Users.findOne({ email: email, password: encryptPassword });
+
+            const token = jwt.sign({ userId: user.id });
+
+            return res.status(200).json({ user: user, token: token });
+        } catch (error) {
+            return res.status(500).json(error.message);
         }
     }
 }
