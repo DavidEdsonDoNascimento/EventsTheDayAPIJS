@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import OccurrencesController from './../controllers/occurrencesController';
-import AuthenticationMiddleware from './../middlewares/authentication-middleware';
+import OccurrencesController from '../controllers/occurrences-controller';
+import AuthenticationMiddleware from '../middlewares/authentication-middleware';
 
 const router = Router()
 

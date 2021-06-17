@@ -1,10 +1,8 @@
-import dotenv from 'dotenv';
+import 'dotenv/config';
 import express from 'express';
 import { routes } from './routes';
 
 const app = express();
-
-dotenv.config();
 
 routes(app);
 

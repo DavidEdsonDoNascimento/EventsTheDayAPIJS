@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
-import CategoriesController from './../controllers/categoriesController';
-import AuthenticationMiddleware from './../middlewares/authentication-middleware';
+import CategoriesController from '../controllers/categories-controller';
+import AuthenticationMiddleware from '../middlewares/authentication-middleware';
 
 
 const router = Router();
