@@ -39,7 +39,7 @@ export default class UsersController
     {
         try {
             
-            const [ hashType, hash ] = req.headers.authorization.toString().split(' ');
+            const [, hash ] = req.headers.authorization.toString().split(' ');
             
             const [ email, password ] = Buffer.from(hash, 'base64').toString().split(':');
 
@@ -53,9 +53,11 @@ export default class UsersController
 
             const token = jwt.sign({ userId: user.id });
 
-            return res.status(200).json({ user: user, token: token });
+            res.set('Authorization', token);
+
+            return res.status(200).json({ user: user });
         } catch (error) {
-            return res.status(400).json(error.message);
+            return res.status(401).json(error.message);
         }
     }
 }
