@@ -21,8 +21,10 @@ export default class UsersController
             const user = await db.Users.create({ email: email, password: encryptPassword });
             
             const token = jwt.sign({ userId: user.id });
+
+            //res.set('Authorization', token);
             
-            return res.status(200).json({ user: user, token: token });
+            return res.status(204).json({ user: user, token: token });
 
         } catch (error) {
             return res.status(500).json(error.message);
@@ -52,10 +54,10 @@ export default class UsersController
             }
 
             const token = jwt.sign({ userId: user.id });
+            //res.set('Authorization', token)
 
-            res.set('Authorization', token);
+            return res.status(200).json({ user: user, token: token });
 
-            return res.status(200).json({ user: user });
         } catch (error) {
             return res.status(401).json(error.message);
         }

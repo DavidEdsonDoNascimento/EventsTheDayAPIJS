@@ -1,4 +1,4 @@
-const db = require('../models')
+import * as db from '../models';
 
 class CategoriesController 
 {
@@ -6,7 +6,7 @@ class CategoriesController
     {
         try{
             
-            const categories = await db.Categories.findAll({ where: { status: true} })
+            const categories = await db.Categories.findAll({ where: { status: true } })
             return res.status(200).json(categories)
         }
         catch(e){

@@ -8,8 +8,9 @@ router
 .get('/occurrences', AuthenticationMiddleware.authentication, OccurrencesController.list)
 .get('/occurrences/:id', AuthenticationMiddleware.authentication, OccurrencesController.findById)
 .get('/occurrences/:id/times', AuthenticationMiddleware.authentication, OccurrencesController.findTimesOfOccurrence)
+.post('/occurrences/:id/times', AuthenticationMiddleware.authentication, OccurrencesController.multiTimes)
 .post('/occurrences', AuthenticationMiddleware.authentication, OccurrencesController.insert)
 .patch('/occurrences/:id', AuthenticationMiddleware.authentication, OccurrencesController.update)
-.delete('/occurrences/:occurrenceId/times/:timeId', AuthenticationMiddleware.authentication, OccurrencesController.deleteTimeOfOccurence);
+.delete('/occurrences/:occurrenceId/times/:timeId', AuthenticationMiddleware.authentication, OccurrencesController.deleteTimeOfOccurence)
 
 export default router;

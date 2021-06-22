@@ -109,6 +109,42 @@ class OccurrencesController
         }
     }
 
+
+    static async multipleTimes(req, res){
+        //id of ocorrence
+        const { id } = req.params
+        const { Times } = req.body
+
+        try{
+            
+            if(Times.length <= 0){
+                throw new Error(`Parametro Times deve ser enviado no corpo na requisição.`);
+            }
+
+            Times.forEach(async time => {
+
+                let timeObj = {
+                    start: time.start, 
+                    end: time.end, 
+                    status: time.status,
+                    occurrence_id: id
+                }
+
+                if(typeof time.id == 'undefined'){
+                    await db.Times.create(timeObj)    
+                    return;
+                }
+
+                await db.Times.update(timeObj, { where: { id: time.id, occurrence_id: id } }) })
+            
+            const occurrence = await db.Occurrences.findOne({ where: { id: id } })
+            
+            return res.status(200).json(occurrence)
+        }
+        catch (err){
+            return res.status(500).json(err.message)
+        }
+    }
     // static async delete(req, res)
     // {
     //     try{
