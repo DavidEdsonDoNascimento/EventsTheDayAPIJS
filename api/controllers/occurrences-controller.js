@@ -1,6 +1,6 @@
-const db = require('./../models')
+import db from '../models';
 
-class OccurrencesController 
+export default class OccurrencesController 
 {
     static async list(req, res)
     {
@@ -109,7 +109,6 @@ class OccurrencesController
         }
     }
 
-
     static async multipleTimes(req, res){
         //id of ocorrence
         const { id } = req.params
@@ -118,7 +117,7 @@ class OccurrencesController
         try{
             
             if(Times.length <= 0){
-                throw new Error(`Parametro Times deve ser enviado no corpo na requisição.`);
+                throw new Error('Parametro Times deve ser enviado no corpo na requisição.');
             }
 
             Times.forEach(async time => {
@@ -135,7 +134,8 @@ class OccurrencesController
                     return;
                 }
 
-                await db.Times.update(timeObj, { where: { id: time.id, occurrence_id: id } }) })
+                await db.Times.update(timeObj, { where: { id: time.id, occurrence_id: id } })
+            })
             
             const occurrence = await db.Occurrences.findOne({ where: { id: id } })
             
@@ -155,5 +155,3 @@ class OccurrencesController
     //     }
     // }
 }
-
-module.exports = OccurrencesController
